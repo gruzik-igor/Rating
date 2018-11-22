@@ -3,8 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Mgilet\NotificationBundle\NotifiableInterface;
-use Mgilet\NotificationBundle\Annotation\Notifiable;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,12 +14,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("email", groups={"registration", "default"})
  * @UniqueEntity("username", groups={"registration", "default"})
- * @ORM\EntityListeners({"AppBundle\EventListener\UserEntityListener"}
- * )
- * @Notifiable(name="users")
+ * @ORM\EntityListeners({"AppBundle\EventListener\UserEntityListener"})
  * @UniqueEntity("email")
  */
-class User implements UserInterface, NotifiableInterface
+class User
 {
     /**
      * @var int
@@ -74,6 +70,11 @@ class User implements UserInterface, NotifiableInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $salt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $hash;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
