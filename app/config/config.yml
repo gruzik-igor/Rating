@@ -1,7 +1,8 @@
 imports:
-    - { resource: parameters.yml }
-    - { resource: security.yml }
-    - { resource: services.yml }
+- { resource: parameters.yml }
+- { resource: security.yml }
+- { resource: services.yml }
+- { resource: "@AppBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -18,7 +19,7 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
@@ -35,6 +36,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+    - bootstrap_4_layout.html.twig
 
 # Doctrine Configuration
 doctrine:
@@ -46,6 +49,11 @@ doctrine:
         user: '%database_user%'
         password: '%database_password%'
         charset: UTF8
+#        types:
+#            enum_invoice_status_type: AppBundle\DBAL\EnumInvoiceStatusType
+#            enum_instance_deploying_status_type: AppBundle\DBAL\EnumInstanceDeployingStatusType
+#            enum_instance_status_type: AppBundle\DBAL\EnumInstanceStatusType
+        server_version: 5.7
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
@@ -66,6 +74,21 @@ swiftmailer:
     password: '%mailer_password%'
     spool: { type: memory }
 
-sensio_framework_extra:
-   router:
-        annotations: false
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+#    organize_migrations: false # Version >= 1.2, possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false
+#    custom_template: ~ # Version >= 1.2, path to your custom migrations template
+
+#fos_rest:
+#    routing_loader:
+#        default_format: json
+#    view:
+#        view_response_listener: true
+#        formats:
+#            xml: true
+#            json : true
+#    param_fetcher_listener: true

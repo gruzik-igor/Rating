@@ -118,13 +118,19 @@
 
 <body class="app">
 
+{% if  app.request.attributes.get('_route') in ['sign-in', 'registration'] == false %}
+    {% include '@App/layouts/sidebar.html.twig' %}
+    {% include '@App/layouts/header.html.twig' %}
+{% endif %}
+
 <div id="loader">
     <div class="spinner"></div>
 </div>
 
 <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
 
-<script>window.addEventListener('load', () => {
+<script>
+    window.addEventListener('load', () => {
         const loader = document.getElementById('loader');
         setTimeout(() => {
             loader.classList.add('fadeOut');
@@ -134,14 +140,11 @@
 
 <div>
 
-{% include '@App/layouts/sidebar.html.twig' %}
-
-{% include '@App/layouts/header.html.twig' %}
+{#{% include '@App/layouts/sidebar.html.twig' %}#}
 
 
-{% if  app.request.attributes.get('_route') in ['sign-in', 'registration'] == false %}
-    {#{% include '@App/layouts/sidebar.html.twig' %}#}
-{% endif %}
+
+
 
 
 

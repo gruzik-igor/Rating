@@ -2,51 +2,29 @@
 
 
 {% block body %}
-
-<h2 class="form-signin-heading">Please enter user info</h2>
-
-    {#{{ form_start(form, {attr: {class: 'form-signin'} }) }}#}
-    {#{{ form_widget(form)}}#}
-    {#{{ form_end(form) }}#}
+    <div class="container">
+        <div class="card card-login mx-auto mt-5">
+            <div class="card-header">User Registration  </div>
+            <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_widget(form)}}
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-success text-left" type="submit">Register </button>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-primary text-right" href="{{ asset('sign-in') }}">Return </a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block stylesheets %}
-    {#<style>#}
-        {#.form-signin {#}
-            {#max-width: 330px;#}
-            {#padding: 15px;#}
-            {#margin: 0 auto;#}
-        {#}#}
-        {#.form-signin .form-signin-heading,#}
-        {#.form-signin .checkbox {#}
-            {#margin-bottom: 10px;#}
-        {#}#}
-        {#.form-signin .checkbox {#}
-            {#font-weight: normal;#}
-        {#}#}
-        {#.form-signin .form-control {#}
-            {#position: relative;#}
-            {#height: auto;#}
-            {#-webkit-box-sizing: border-box;#}
-            {#-moz-box-sizing: border-box;#}
-            {#box-sizing: border-box;#}
-            {#padding: 10px;#}
-            {#font-size: 16px;#}
-        {#}#}
-        {#.form-signin .form-control:focus {#}
-            {#z-index: 2;#}
-        {#}#}
-        {#.form-signin input[type="email"] {#}
-            {#margin-bottom: -1px;#}
-            {#border-bottom-right-radius: 0;#}
-            {#border-bottom-left-radius: 0;#}
-        {#}#}
-        {#.form-signin input[type="password"] {#}
-            {#margin-bottom: 10px;#}
-            {#border-top-left-radius: 0;#}
-            {#border-top-right-radius: 0;#}
-        {#}#}
 
-    {#</style>#}
+    <link href="/web/vendor/admin-panel/registration.css" rel="stylesheet">
+
 {% endblock %}
