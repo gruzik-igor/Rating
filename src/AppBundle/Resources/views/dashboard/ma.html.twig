@@ -1,0 +1,463 @@
+{% extends '@App/layouts/base.html.twig' %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Marketing Agency</a>
+                </li>
+                <li class="breadcrumb-item active">My Dashboard</li>
+            </ol>
+            <!-- Icon Cards-->
+
+            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+
+                <li class="nav-item">
+                    <a class="nav-link active" id="branding-tab" data-toggle="tab" href="#branding"
+                       data-tab-history="true"
+                       data-tab-history-changer="push"
+                       data-tab-history-update-url="true">Branding</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="summary-tab" data-toggle="tab" href="#summary"
+                       data-tab-history="true"
+                       data-tab-history-changer="push"
+                       data-tab-history-update-url="true">Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contractors-tab" data-toggle="tab" href="#contractors"
+                       data-tab-history="true"
+                       data-tab-history-changer="push"
+                       data-tab-history-update-url="true">Contractors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="licenses-tab" data-toggle="tab" href="#licenses"
+                       data-tab-history="true"
+                       data-tab-history-changer="push"
+                       data-tab-history-update-url="true">Licenses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="direct-contacts-tab" data-toggle="tab" href="#direct-contacts"
+                       data-tab-history="true"
+                       data-tab-history-changer="push"
+                       data-tab-history-update-url="true">Direct contacts</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+
+                <div class="tab-pane fade active show" id="branding">
+                    <div class="card mb-2">
+                        <div class="card-header">
+                            <i class="fa fa-fw fa-id-card" ></i> Marketing Agency information
+                        </div>
+                        <div class="card-body ">
+                        {% for instance in instances %}
+                            {#{% if instance.user.role == 'ROLE_MA' %}#}
+                            <form action="{{ url('edit-user', {'user': instance.user.id}) }}" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-row">
+                                        <div class="col-md-3">
+                                            <label for="instanceName">Your company name:</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input type="hidden" name="instance[id]" value="">
+                                                <input name="instance[name]" type="text"
+                                                       value="{{ instance.name }}" id="instanceName"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="photo">Company logo:</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input type="file" class="form-control" name="upload img">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="domainName">Domain name:</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input name="instance[domainName]" type="text"
+                                                       value="{{ instance.domainName }}" id="domainName" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="contactPhone">Contact phone:</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input name="instance[user][contactPhone]" type="text"
+                                                       value="{{ instance.user.contactPhone }}" id="contactPhone" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="email">Contact e-mail:</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <input name="instance[user][email]" type="text"
+                                                       value="{{ instance.user.email }}" id="email" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="contactPhone">Primary language:</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input name="instance[user][primaryLanguage]" type="text" readonly
+                                                       value="{{ instance.user.primaryLanguage }}" id="primaryLanguage" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="change-on">Change on:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select class="form-control" name="change-primary-lang" id="change-on">
+                                                    <option value="english">English</option>
+                                                    <option value="germany">Germany</option>
+                                                    <option value="ukraine">Ukraine</option>
+                                                    <option value="poland">Poland</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="col-md-12">
+                                            <label class="text-center" for="email">Logo preview:</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            {#<img class="img-thumbnail" src="https://www.pathwayteaching.com/wp-content/uploads/2018/05/PATHWAY-LOGO-FINAL-GREEN-2018-02-180x180.png" alt="" >#}
+                                            <img class="img-thumbnail" src="{{ asset('photos') }}/{{ instance.user.photo }}" alt="" >
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-success btn-lg ">Apply changes</button>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <button type="button" class="btn btn-success btn-lg ">Discard changes</button>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <button type="button" class="btn btn-success btn-lg ">Factory reset</button>
+                                    </div>
+                                </div>
+                            </form>
+                            {#{% endif %}#}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="tab-pane fade show" id="summary">
+
+                    <div class="row col-md-8 mb-2">
+                        <div class="col-md-6">
+                            <label for="licensesPurchased">Licenses purchased:</label>
+                            <span id="licensesPurchased"> 35 </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="licensesPurchased">Individual contractors:</label>
+                            <span id="licensesPurchased"> 5 </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="licensesUsed">Licenses used:</label>
+                            <span id="licensesUsed"> 23 </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="businessAccounts">Business accounts:</label>
+                            <span id="businessAccounts"> 18 paid, 5 trial, 23 total </span>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="licenseFree">License free:</label>
+                            <span id="licenseFree"> 20$ per user per month </span>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="freeLicense">Free license used:</label>
+                            <span id="freeLicense"> 12        <a href="#">request more</a> </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="invoiceDue">Invoice due:</label>
+                            <span id="invoiceDue"> 700$, due date: 02/25/2018 </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="totalRevenue">Total revenue from business accounts this month:</label>
+                            <span id="totalRevenue"> 1523$</span>
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-2">
+                        <div class="card-header">
+                            <i class="fa fa-fw fa-briefcase" ></i> Business accounts summary:
+                        </div>
+                        <div class="card-body ">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Company name</th>
+                                        <th>Contact person</th>
+                                        <th>Revenue per month $</th>
+                                        <th>Invited by IC</th>
+                                        <th>Invoice Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Company name</th>
+                                        <th>Contact person</th>
+                                        <th>Revenue per month $</th>
+                                        <th>Invited by IC</th>
+                                        <th>Invoice Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>SEO</td>
+                                        <td>igor</td>
+                                        <td>200</td>
+                                        <td>direct contact</td>
+                                        <td>01/20/2018</td>
+                                        <td>Trial</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Marceting Monsters</td>
+                                        <td>John</td>
+                                        <td>185</td>
+                                        <td>Richard Roe</td>
+                                        <td>02/25/2018</td>
+                                        <td>Suspended</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Surway</td>
+                                        <td>Zoe</td>
+                                        <td>50</td>
+                                        <td>Mark Coss</td>
+                                        <td>02/02/2018</td>
+                                        <td>Active</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade show" id="contractors">
+
+                    <div class="row padd">
+                        <div class="col-md-9 ">
+                            <div class="row mb-4">
+
+                                <div class="col-md-4">
+                                    <a href="#"> Request more licenses</a>
+                                 </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" name="selectContractor" id="selectContractor">
+                                        <option selected disabled> select contractor </option>
+                                        <option value=""> Zoe </option>
+                                        <option value=""> Mark </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" name="selectContractor" id="selectContractor">
+                                        <option selected disabled> select contractor </option>
+                                        <option value=""> Zoe </option>
+                                        <option value=""> Mark </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button class="btn btn-dark "> Add new contractor</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-dark "> Add new contractor</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-dark "> Add new contractor</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                                <div class="card-body">
+                                    <div id="Issued_chart"></div>
+                                </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card mb-2">
+                        <div class="card-header">
+                            <i class="fa fa-fw fa-users" ></i> Contractors summary:
+                        </div>
+                        <div class="card-body ">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Contractor name</th>
+                                        <th>License used</th>
+                                        <th>Licensed abaliable</th>
+                                        <th>Clients attracted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Contractor name</th>
+                                        <th>License used</th>
+                                        <th>Licensed abaliable</th>
+                                        <th>Clients attracted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Zoe Deshanel</td>
+                                        <td>12</td>
+                                        <td>10</td>
+                                        <td>2</td>
+                                        <td>Active</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Mark Zedan</td>
+                                        <td>18</td>
+                                        <td>15</td>
+                                        <td>9</td>
+                                        <td>Suspended</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Jacob Bowie</td>
+                                        <td>25</td>
+                                        <td>1</td>
+                                        <td>11</td>
+                                        <td>Active</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade show" id="licenses">
+
+                    <div class="row col-md-8 mb-2">
+                        <div class="col-md-6">
+                            <label for="licensesPurchased">Licenses purchased:</label>
+                            <span id="licensesPurchased"> 35 </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="licensesUsed">Licenses used:</label>
+                            <span id="licensesUsed"> 23 </span>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="licenseFree">License free:</label>
+                            <span id="licenseFree"> 20$ per user per month </span>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="freeLicense">Free license used:</label>
+                            <span id="freeLicense"> 12 </span>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="invoiceDue">Invoice due:</label>
+                            <span id="invoiceDue"> 700$, due date: 02/25/2018 </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- /.container-fluid-->
+            <!-- /.content-wrapper-->
+            <footer class="sticky-footer">
+                <div class="container">
+                    <div class="text-center">
+                        <small>Copyright © Boom Reviews 2018</small>
+                    </div>
+                </div>
+            </footer>
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fa fa-angle-up"></i>
+            </a>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {#<script src="/js/infiniteScroll.js"></script>#}
+    <script type="text/javascript">
+        $(function () {
+            $('#select-instance').change(function (e) {
+                $.get('/api/licenses/' + e.target.value, function (data) {
+                    let issued = $('#license-issued');
+
+                    issued.text(data.issued);
+                    document.getElementById("issuedValue").value = data.issued;
+
+                    let changeLicensesValueForm = $('#change-licenses-value');
+
+                    changeLicensesValueForm.attr('action', '/licenses/' + data.id);
+
+                });
+
+                $.get('/api/licenses/' + e.target.value, function (data) {
+                    let rate = $('#license-rate');
+
+                    rate.text(data.rate);
+                    document.getElementById("rateValue").value = data.rate;
+
+                    let changeLicensesValueForm = $('#change-license-rate');
+
+                    changeLicensesValueForm.attr('action', '/licenses/' + data.id);
+
+                });
+
+                $.get('/api/invoices/' + e.target.value, function (data) {
+                    $('.invoice-price').each(function (index, element) {
+                        $(element).text(data.price);
+                    });
+
+                });
+
+            })
+
+        })
+    </script>
+{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}

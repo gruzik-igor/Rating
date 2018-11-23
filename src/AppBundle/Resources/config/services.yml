@@ -1,0 +1,22 @@
+imports:
+    - { resource: jms.yml }
+parameters:
+    web_dir: '%kernel.root_dir%/../web'
+
+services:
+    app.user.entity_listener:
+        class: AppBundle\EventListener\UserEntityListener
+        arguments: ['@security.password_encoder', '@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+    form_authenticator:
+        class: AppBundle\Security\FormAuthenticator
+        arguments: ["@router", "@security.password_encoder"]
+
+    app.user_provider:
+        class: AppBundle\Security\Authentication\AppUserProvider
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.server_info.service:
+        class: AppBundle\Services\ServerInfoService 
+        public: true

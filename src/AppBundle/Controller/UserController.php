@@ -13,7 +13,7 @@ use AppBundle\Entity\User;
 class UserController extends Controller
 {
     /**
-     * @Route("/singup", name="singup")
+     * @Route("/registration", name="registration")
      */
     public function registrationAction(Request $request)
     {
@@ -26,10 +26,12 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
         }
-        return $this->render('@App/signup/signup.html.twig', [
+//        return $this->render('@App/signup/signup.html.twig', [
+//            'form' => $form->createView(),
+//        ]);
+        return $this->render('@App/user/registration.html.twig', [
             'form' => $form->createView(),
         ]);
-
     }
 
      //test route

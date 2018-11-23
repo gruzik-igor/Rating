@@ -1,0 +1,6 @@
+services:
+    app.serializer.instance:
+        class: AppBundle\Serializer\InstanceListener
+        tags:
+            - { name: jms_serializer.event_subscriber }
+        arguments: [ '@doctrine.orm.entity_manager' ]
