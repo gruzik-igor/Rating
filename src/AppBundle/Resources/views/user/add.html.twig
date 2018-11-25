@@ -1,0 +1,31 @@
+{% extends '@App/layouts/base.html.twig' %}
+
+
+{% block body %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div class="col-md-12">
+                <h3>Create User of Marketing Agency:</h3>
+                <hr>
+                {{ form_start(form) }}
+                {{ form_widget(form)}}
+                <div class="col-md-12 form-row">
+                    <div class="col-md-1 ">
+                        <button type="submit" class="btn btn-success btn-block">Add user</button>
+                    </div>
+                    <div class="col-md-1 ">
+                        <a href="{{ asset('users') }}" class="btn btn-primary btn-block ">Cancel </a>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+
+    <link href="/web/vendor/admin-panel/registration.css" rel="stylesheet">
+
+{% endblock %}

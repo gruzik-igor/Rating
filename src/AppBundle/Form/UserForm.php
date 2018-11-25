@@ -28,9 +28,7 @@ class UserForm extends AbstractType
             ->add('fullName', TextType::class, ['attr' => ['placeholder' => 'Enter your FullName', 'class' => 'form-control border-input'], 'label' => 'FullName: '])
             ->add('email', EmailType::class, ['attr' => ['placeholder' => 'Please enter your email', 'class' => 'form-control border-input'], 'label' => 'E-mail: '])
             ->add('role', HiddenType::class, ['attr' => ['value' => 'ROLE_SUPER_ADMIN']])
-            ->add('password', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input'],'label' => 'Password: '])
-            ->add('confirmpassword', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Please confirm password', 'class' => 'form-control border-input'], 'label' => 'Confirm Password: ']);
-
+            ->add('password', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input'],'label' => 'Password: ']);
     }
 
     /**
