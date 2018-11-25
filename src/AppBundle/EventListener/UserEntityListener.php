@@ -24,7 +24,7 @@ class UserEntityListener
      *
      * @param UserPasswordEncoder $encoder
      */
-    public function __construct(UserPasswordEncoderInterface $encoder , TokenStorageInterface $tokenStorage)
+    public function __construct(UserPasswordEncoderInterface $encoder, TokenStorageInterface $tokenStorage)
     {
         $this->encoder = $encoder;
 
@@ -32,9 +32,9 @@ class UserEntityListener
     }
 
     /**
-     * Encode password when peresisting new user.
+     * Encode password when prepersisting new user.
      *
-     * @param UserInterface      $user
+     * @param UserInterface $user
      * @param LifecycleEventArgs $args
      *
      * @ORM\PrePersist
@@ -48,7 +48,7 @@ class UserEntityListener
     /**
      * Edit user role.
      *
-     * @param UserInterface      $user
+     * @param UserInterface $user
      * @param PreUpdateEventArgs $args
      *
      * @ORM\PreUpdate
@@ -56,7 +56,11 @@ class UserEntityListener
     public function editRole(UserInterface $user, PreUpdateEventArgs $args)
     {
         $changes = $args->getEntityChangeSet();
-        $user = $this->tokenStorage->getToken()->getUser();
+        if ($this->tokenStorage->getToken()) {
+            $user = $this->tokenStorage->getToken()->getUser();
+        } else {
+            return;
+        }
 
         if (array_key_exists('role', $changes) && 'ROLE_SUPER_ADMIN' != $user->getRole()) {
             throw new AccessDeniedHttpException();
@@ -66,7 +70,7 @@ class UserEntityListener
     /**
      * Encode new password when updating a user.
      *
-     * @param UserInterface      $user
+     * @param UserInterface $user
      * @param PreUpdateEventArgs $args
      *
      * @ORM\PreUpdate
@@ -93,10 +97,7 @@ class UserEntityListener
             return;
         }
 
-        $encoded = $this->encoder->encodePassword(
-            $user,
-            $plainPassword
-        );
+        $encoded = $this->encoder->encodePassword($user, $plainPassword);
 
         $user->setPassword($encoded);
     }

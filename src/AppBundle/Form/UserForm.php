@@ -9,7 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,22 +24,12 @@ class UserForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['attr' => ['placeholder' => 'Enter your name', 'class' => 'form-control border-input'], 'label' => 'Username: '])
-            ->add('fullName', TextType::class, ['attr' => ['placeholder' => 'Enter your fullName', 'class' => 'form-control border-input'], 'label' => 'fullName: '])
+            ->add('username', TextType::class, ['attr' => ['placeholder' => 'Enter your Name', 'class' => 'form-control border-input '],'label' => 'Username: '])
+            ->add('fullName', TextType::class, ['attr' => ['placeholder' => 'Enter your FullName', 'class' => 'form-control border-input'], 'label' => 'FullName: '])
             ->add('email', EmailType::class, ['attr' => ['placeholder' => 'Please enter your email', 'class' => 'form-control border-input'], 'label' => 'E-mail: '])
             ->add('role', HiddenType::class, ['attr' => ['value' => 'ROLE_SUPER_ADMIN']])
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'options' => array('attr' => array('class' => 'password-field')),
-                'required' => true,
-                'first_options' => array('attr' => ['placeholder' => 'Password:', 'class' => 'form-control'], 'label' => 'Password'),
-                'second_options' => array('attr' => ['placeholder' => 'Confirm password:', 'class' => 'form-control'], 'label' => false),
-                'property_path' => 'plainPassword',
-                'label' => false
-            ));
-//            ->add('password', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input'], 'label' => 'Password: '])
-//            ->add('sent', SubmitType::class, [ 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input'], 'label' => 'Password: ']);
+            ->add('password', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input'],'label' => 'Password: '])
+            ->add('confirmpassword', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Please confirm password', 'class' => 'form-control border-input'], 'label' => 'Confirm Password: ']);
 
     }
 

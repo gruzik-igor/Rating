@@ -3,18 +3,17 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Form\UserForm;
 use AppBundle\Entity\User;
 
 
-class UserController extends AbstractController
+class UserController extends Controller
 {
     /**
-     * @Route("/registration", name="registration")
-     *
+     * @Route("/singup", name="singup")
      */
     public function registrationAction(Request $request)
     {
@@ -24,17 +23,13 @@ class UserController extends AbstractController
 
         if($form->isValid() && $form->isSubmitted() && $request->getMethod() === 'POST') {
             $em = $this->getDoctrine()->getManager();
-            $data = $form->getData();
-            dump($data);die;
             $em->persist($user);
             $em->flush();
         }
-//        return $this->render('@App/signup/signup.html.twig', [
-//            'form' => $form->createView(),
-//        ]);
-        return $this->render('@App/user/registration.html.twig', [
+        return $this->render('@App/signup/signup.html.twig', [
             'form' => $form->createView(),
         ]);
+
     }
 
      //test route
