@@ -24,11 +24,12 @@ class UserForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, ['attr' => ['placeholder' => 'Enter your Name', 'class' => 'form-control border-input '],'label' => 'Username: '])
-            ->add('fullName', TextType::class, ['attr' => ['placeholder' => 'Enter your FullName', 'class' => 'form-control border-input'], 'label' => 'FullName: '])
+            ->add('username', TextType::class, ['attr' => ['placeholder' => 'Enter your name', 'class' => 'form-control border-input'], 'label' => 'Username: '])
+            ->add('fullName', TextType::class, ['attr' => ['placeholder' => 'Enter your fullName', 'class' => 'form-control border-input'], 'label' => 'fullName: '])
             ->add('email', EmailType::class, ['attr' => ['placeholder' => 'Please enter your email', 'class' => 'form-control border-input'], 'label' => 'E-mail: '])
             ->add('role', HiddenType::class, ['attr' => ['value' => 'ROLE_SUPER_ADMIN']])
-            ->add('password', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input'],'label' => 'Password: ']);
+            ->add('password', PasswordType::class, [ 'property_path' => 'plainPassword', 'attr' => ['placeholder' => 'Enter password', 'class' => 'form-control border-input mb-20'], 'label' => 'Password: ']);
+ 
     }
 
     /**

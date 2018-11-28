@@ -25,6 +25,8 @@
         <div class="text-dark yexy-normal">
         {{ form_start(form) }}
         {{ form_widget(form)}}
+        {{ form_row(form.plainPassword.first) }}
+        {{ form_row(form.plainPassword.second) }}
             <div class="row">
                 <div class="col-md-4 ">
                     <a class="btn btn-primary text-right" href="{{ asset('sign-in') }}"> Return </a>

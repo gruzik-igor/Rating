@@ -1,22 +1,75 @@
 imports:
+    - { resource: listeners.yml }
     - { resource: jms.yml }
+    - { resource: twig.yml }
 parameters:
+    base_dir: 'files'
     web_dir: '%kernel.root_dir%/../web'
-
+    facebook_app_data: {id: '1054181868122464', secret: 'c4d0c6d70423f604e99584494bdc9e4d'}
+    twilio_data: {sid: 'AC8672764e69f0d3d31416a3d4738a5415', token: '5a835ee774a5d41f50c66e033dd3148f', phone: '+61488844086'}
+    stripe_data: {public_key: 'pk_test_CJAymRUybpzHbzvJ4EaVDpa5', secret_key: 'sk_test_95fBW5g1vYluAd9uiZGdz1t5', currency: 'USD', decimal: true}
 services:
-    app.user.entity_listener:
-        class: AppBundle\EventListener\UserEntityListener
-        arguments: ['@security.password_encoder', '@security.token_storage']
-        tags:
-            - { name: doctrine.orm.entity_listener }
     form_authenticator:
-        class: AppBundle\Security\FormAuthenticator
-        arguments: ["@router", "@security.password_encoder"]
+          class: AppBundle\Security\FormAuthenticator
+          arguments: ["@router", "@security.password_encoder"]
 
     app.user_provider:
         class: AppBundle\Security\Authentication\AppUserProvider
+        arguments: ['@doctrine.orm.entity_manager', '%web_dir%']
+
+    app.rest_client.service:
+        public: true
+        class: AppBundle\Service\RestClientService
+
+    app.photo.service:
+        class: AppBundle\Service\PhotoService
+        arguments: ['%web_dir%', '%base_dir%']
+
+    app.instagram.service:
+        class: AppBundle\Service\InstagramService
+        public: true
+        arguments: ['@doctrine.orm.entity_manager', '%web_dir%', '%domain%']
+
+
+    app.seo_rank.service:
+        public: true
+        class: AppBundle\Service\SeoRankService
+        arguments: ['@doctrine.orm.entity_manager', '@service_container']
+
+    app.twilio-replies.service:
+        public: true
+        class: AppBundle\Service\TwilioRepliesService
+        arguments: ['@doctrine.orm.entity_manager', '%twilio_data%']
+
+    app.mandrill.service:
+        public: true
+        class: AppBundle\Service\MandrillService
+
+    app.google.service:
+        class: AppBundle\Service\GoogleService
+        arguments: ['@doctrine.orm.entity_manager', '%domain%', '%web_dir%']
+
+    app.import_messages.service:
+        class: AppBundle\Service\ImportMessagesService
         arguments: ['@doctrine.orm.entity_manager']
 
-    app.server_info.service:
-        class: AppBundle\Services\ServerInfoService 
-        public: true
+    app.facebook.service:
+        class: AppBundle\Service\FacebookService
+        arguments: ['%domain%', '%web_dir%', '@doctrine.orm.entity_manager', '%facebook_app_data%']
+
+
+    app.invite.service:
+        class: AppBundle\Service\InviteService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.dashboard.service:
+        class: AppBundle\Service\DashboardService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.synup.service:
+        class: AppBundle\Service\SynupService
+
+    app.client.stripe:
+        class: AppBundle\Client\StripeClient
+        arguments: ['%stripe_data%', '@doctrine.orm.entity_manager', '@logger']
+

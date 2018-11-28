@@ -14,8 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("email", groups={"registration", "default"})
  * @UniqueEntity("username", groups={"registration", "default"})
- * @ORM\EntityListeners({"AppBundle\EventListener\UserEntityListener"})
- * @UniqueEntity("email")
+//  ORM\EntityListeners({"AppBundle\EventListener\UserEntityListener"})
  */
 class User
 {
@@ -30,12 +29,14 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
      * @Assert\Length(max="255")
      */
     protected $username;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
      * @Assert\Length(max="255")
      */
     protected $fullName;
@@ -49,17 +50,19 @@ class User
     protected $email;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(min = 5, max=4096)
+     */
+    protected $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     protected $password;
 
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank(groups={"registration"})
-     * @Assert\Length(min = 5)
-     */
-    protected $plainPassword = null;
+
 
     /**
      * @ORM\Column(type="string", nullable=true, options={"default" : "ROLE_USER"})
@@ -72,40 +75,11 @@ class User
     protected $salt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $hash;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      *
      */
     protected $registrationDate;
 
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    protected $listings;
-
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    protected $reviews;
-
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    protected $seoRank;
-
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    protected $messages;
-
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
-    protected $socialPosts;
 
     /**
      * Returns the roles granted to the user.
@@ -354,123 +328,4 @@ class User
         return $this->plainPassword;
     }
 
-    /**
-     * Set listings
-     *
-     * @param integer $listings
-     *
-     * @return User
-     */
-    public function setListings($listings)
-    {
-        $this->listings = $listings;
-
-        return $this;
-    }
-
-    /**
-     * Get listings
-     *
-     * @return integer
-     */
-    public function getListings()
-    {
-        return $this->listings;
-    }
-
-    /**
-     * Set reviews
-     *
-     * @param integer $reviews
-     *
-     * @return User
-     */
-    public function setReviews($reviews)
-    {
-        $this->reviews = $reviews;
-
-        return $this;
-    }
-
-    /**
-     * Get reviews
-     *
-     * @return integer
-     */
-    public function getReviews()
-    {
-        return $this->reviews;
-    }
-
-    /**
-     * Set seoRank
-     *
-     * @param integer $seoRank
-     *
-     * @return User
-     */
-    public function setSeoRank($seoRank)
-    {
-        $this->seoRank = $seoRank;
-
-        return $this;
-    }
-
-    /**
-     * Get seoRank
-     *
-     * @return integer
-     */
-    public function getSeoRank()
-    {
-        return $this->seoRank;
-    }
-
-    /**
-     * Set messages
-     *
-     * @param integer $messages
-     *
-     * @return User
-     */
-    public function setMessages($messages)
-    {
-        $this->messages = $messages;
-
-        return $this;
-    }
-
-    /**
-     * Get messages
-     *
-     * @return integer
-     */
-    public function getMessages()
-    {
-        return $this->messages;
-    }
-
-    /**
-     * Set socialPosts
-     *
-     * @param integer $socialPosts
-     *
-     * @return User
-     */
-    public function setSocialPosts($socialPosts)
-    {
-        $this->socialPosts = $socialPosts;
-
-        return $this;
-    }
-
-    /**
-     * Get socialPosts
-     *
-     * @return integer
-     */
-    public function getSocialPosts()
-    {
-        return $this->socialPosts;
-    }
 }
