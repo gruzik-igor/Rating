@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 
+
+
 class DashboardController extends BaseController
 {
     /**
@@ -28,14 +30,23 @@ class DashboardController extends BaseController
     public function indexAction(Request $request)
     {
         /**
-         * @var LicenseRepository $repository
+         * @var $user User
          */
-//       $repository = $this->getRepository('AppBundle:License');
+         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+
+//       $em = $this->getDoctrine()->getManager();
+//       $user = new User();
+//
+//       $user = $em->getRole();
+
 //        echo '<pre>';
-//        var_dump($request); die;
+        //var_dump($request); die;
 //        echo'</pre>';
-//        $this->isGranted('ROLE_SUPER_ADMIN');
-        $userRole = $this->getUser()->getRole();
+       //$this->isGranted('ROLE_SUPER_ADMIN');
+
+      // $userRole = $userRole->isGranted('ROLE_SUPER_ADMIN');;
+        //dump($this);die;
+        $userRole = $request->request;
      //var_dump($userRole);die;
         if($userRole == 'ROLE_SUPER_ADMIN')
         {
@@ -114,27 +125,27 @@ class DashboardController extends BaseController
 
     }
 
-    // test routes
-    /**
-     * @Route("/user/info")
-     */
-    public function infoAction()
-    {
-        $name = 'Ivan Ivanenko';
-
-        return new Response('<html><body>Whoo: ' . $name . '</body></html>');
-    }
-
-    /**
-     * @Route("/user/add")
-     */
-
-    public function addAction()
-    {
-        $name = 'Add New User';
-
-        return new Response('<html><body>User: ' . $name . '</body></html>');
-    }
+//    // test routes
+//    /**
+//     * @Route("/user/info")
+//     */
+//    public function infoAction()
+//    {
+//        $name = 'Ivan Ivanenko';
+//
+//        return new Response('<html><body>Whoo: ' . $name . '</body></html>');
+//    }
+//
+//    /**
+//     * @Route("/user/add")
+//     */
+//
+//    public function addAction()
+//    {
+//        $name = 'Add New User';
+//
+//        return new Response('<html><body>User: ' . $name . '</body></html>');
+//    }
 
 
 }

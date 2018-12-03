@@ -12,11 +12,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity("email", groups={"registration", "default"})
- * @UniqueEntity("username", groups={"registration", "default"})
+ * @UniqueEntity(fields={"email", "username"}, message="This one is already taken")
+// * @UniqueEntity("email", groups={"registration", "default"})
+// * @UniqueEntity("username", groups={"registration", "default"})
 //  ORM\EntityListeners({"AppBundle\EventListener\UserEntityListener"})
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -59,10 +60,9 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\Length(min = 5, max=4096)
      */
     protected $password;
-
-
 
     /**
      * @ORM\Column(type="string", nullable=true, options={"default" : "ROLE_USER"})

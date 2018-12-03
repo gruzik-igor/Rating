@@ -1,145 +1,75 @@
 {% extends '@App/layouts/base.html.twig' %}
 
-{% block body %}
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade active show" id="summary">
-                    <div class="col-lg-12">
-                        <div class="row mb-2">
-                            <div class="col-lg-2 ">
-                                <h2>Users List</h2>
-                            </div>
-                        </div>
-                        <!-- Example DataTables Card-->
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                <div class="col-md 12 ">
-                                    <div class="row">
-                                    <div class="col-lg-10 ">
-                                        <i class="fa fa-fw fa-id-card fa-2x" ></i>
-                                    </div>
-                                    <div class="col-lg-2 ">
-                                        <a href="{{ url('add-user') }}" class="btn btn-info btn-block"> Add new User</a>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                        <tr>
-                                            <th>№</th>
-                                            <th>User MA</th>
-                                            <th>Role</th>
-                                            <th>Contact phone</th>
-                                            <th>Contact e-mail</th>
-                                            <th>Primary language</th>
-                                            <th>Registration date</th>
-                                            <th>User Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tfoot>
-                                        <tr>
-                                            <th>№</th>
-                                            <th>User MA</th>
-                                            <th>Role</th>
-                                            <th>Contact phone</th>
-                                            <th>Contact e-mail</th>
-                                            <th>Primary language</th>
-                                            <th>Registration date</th>
-                                            <th>User Action</th>
-                                        </tr>
-                                        </tfoot>
-                                        <tbody>
-                                        {% for user in users %}
-                                            <tr>
-                                                <td>{{ loop.index }}</td>
-                                                <td>{{ user.username }}{{ user.fullname }}</td>
-                                                <td>{{ user.role }}</td>
-                                                <td>{{ user.contactPhone }}</td>
-                                                <td>{{ user.email }}</td>
-                                                <td>{{ user.primaryLanguage }}</td>
-                                                <td>{{ user.registrationDate|date("Y-m-d h:m:s") }}</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-block"
-                                                       href="{{ url('edit-user', {'user': user.id}) }}"> Edit</a>
-                                                    <a class="btn btn-danger btn-block"
-                                                       href="{{ url('delete-user', {'user': user.id}) }}"> Delete</a>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                        </div>
 
-                    </div>
+{% block body %}
+
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
                 </div>
             </div>
-
-            <!-- /.container-fluid-->
-            <!-- /.content-wrapper-->
-            <footer class="sticky-footer">
-                <div class="container">
-                    <div class="text-center">
-                        <small>Copyright © Boom Reviews 2018</small>
-                    </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li class="active">Dashboard</li>
+                    </ol>
                 </div>
-            </footer>
-            <!-- Scroll to Top Button-->
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-
+            </div>
         </div>
     </div>
-{% endblock %}
 
-{% block javascripts %}
-    {#<script src="/js/infiniteScroll.js"></script>#}
-    <script type="text/javascript">
-        $(function () {
-            $('#select-instance').change(function (e) {
-                $.get('/api/licenses/' + e.target.value, function (data) {
-                    let issued = $('#license-issued');
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="row">
 
-                    issued.text(data.issued);
-                    document.getElementById("issuedValue").value = data.issued;
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong class="card-title">Data Table</strong>
+                        </div>
+                        <div class="card-body">
+                            <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>User </th>
+                                    <th>Full Name</th>
+                                    <th>Role</th>
+                                    <th>Contact e-mail</th>
+                                    <th>Registration date</th>
+                                    <th>User Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ user.username }}</td>
+                                            <td>{{ user.fullname }}</td>
+                                            <td>{{ user.role }}</td>
+                                            <td>{{ user.email }}</td>
+                                            <td>{{ user.registrationDate|date("Y-m-d h:m:s") }}</td>
+                                            <td>
+                                            <a class="btn btn-primary btn-block" href="{{ path('user.edit', {id: user.id}) }}"> Edit</a>
+                                            {#<a class="btn btn-danger btn-block"#}
+                                            {#href="{{ url('delete-user', {'user': user.id}) }}"> Delete</a>#}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-                    let changeLicensesValueForm = $('#change-licenses-value');
 
-                    changeLicensesValueForm.attr('action', '/licenses/' + data.id);
+            </div>
+        </div><!-- .animated -->
+    </div><!-- .content -->
 
-                });
-
-                $.get('/api/licenses/' + e.target.value, function (data) {
-                    let rate = $('#license-rate');
-
-                    rate.text(data.rate);
-                    document.getElementById("rateValue").value = data.rate;
-
-                    let changeLicensesValueForm = $('#change-license-rate');
-
-                    changeLicensesValueForm.attr('action', '/licenses/' + data.id);
-
-                });
-
-                $.get('/api/invoices/' + e.target.value, function (data) {
-                    $('.invoice-price').each(function (index, element) {
-                        $(element).text(data.price);
-                    });
-
-                });
-
-            })
-
-        })
-    </script>
-{% endblock %}
-{% block stylesheets %}
 
 {% endblock %}

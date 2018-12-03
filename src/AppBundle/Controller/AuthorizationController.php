@@ -28,7 +28,7 @@ class AuthorizationController extends Controller
             $form->addError($formError);
         }
 
-        $response = $this->render('@App/security/sign-in.html.twig', ['form' => $form->createView()]);
+//        $response = $this->render('@App/security/sign-in.html.twig', ['form' => $form->createView()]);
 
         $response->headers->setCookie(new Cookie('business', null, time() - 3600));
 

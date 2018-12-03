@@ -2,55 +2,66 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Business;
-use AppBundle\Entity\GoogleEvent;
 use AppBundle\Entity\User;
-use AppBundle\Exceptions\RestClientException;
-use AppBundle\Helper\GradeUsApi;
-use AppBundle\Repository\SearchEngineRankResultRepository;
-use AppBundle\Service\FacebookService;
-use AppBundle\Service\GoogleService;
-use AppBundle\Service\InstagramService;
-use AppBundle\Service\RestClientService;
-use AppBundle\Service\SeoRankService;
-use Curl\Curl;
-use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
+use AppBundle\Form\EditUserForm;
+use AppBundle\Form\RegistrationForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-class DefaultController extends BaseController
+
+class DefaultController extends Controller
 {
     /**
-     * @Route("/test", name="clear-cache")
+     * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
-        /**
-         * @var FacebookService $facebookService
-         */
-        $facebookService = $this->get('app.facebook.service');
-
-        /**
-         * @var Business $currentBusiness
-         */
-        $currentBusiness = $this->getCurrentBusiness($request);
-
-        $facebookPost = $this->findOneBy('AppBundle:FacebookPost', ['id' => 321]);
-
-        $facebookService->getComments($facebookPost);
-
-        return new Response();
+       return $this->render('@App/dashboard/index.html.twig');
     }
 
-    private function clearCache($env)
+    /**
+     * @Route("/dashboard", name="dashboard")
+     */
+
+    public  function dashboardAction()
     {
-        $kernel = $this->get('kernel');
-        $application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
-        $application->setAutoExit(false);
-        $options = array('command' => 'cache:clear', "--env" => $env, '--no-warmup' => true);
-        $application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        return $this->render('@App/dashboard/users.html.twig',['users' => $users]);
     }
+
+    /**
+     * @Route("/edituser/{id}", name="user.edit")
+     * @ParamConverter("user", class="AppBundle\Entity\User")
+     * @param Request $request
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+
+    public  function editUserAction(Request $request ,User $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(EditUserForm::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('dashboard');
+        }
+
+
+        return $this->render('@App/dashboard/users/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
+        ]);
+    }
+
 }
