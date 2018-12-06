@@ -1,0 +1,38 @@
+{% extends '@App/layouts/base.html.twig' %}
+
+
+
+{% block body %}
+
+    <div class="content mt-3">
+        <div class="animated fadeIn">
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row ">
+                                <div class="col-md-10">
+                                    <strong style="text-transform: uppercase;">{{ user.username }}</strong>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="{{ path('users') }}" class="btn btn-info text-right"> Back</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form) }}
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+

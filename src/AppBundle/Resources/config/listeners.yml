@@ -1,0 +1,60 @@
+services:
+    app.user.entity_listener:
+        class: AppBundle\EventListener\UserEntityListener
+        arguments: ['@security.password_encoder', '@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.set_owner.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\SetOwnerListener
+        arguments: ['@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.media.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\MediaEntityListener
+        arguments: ['@app.photo.service']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.message.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\MessageEntityListener
+        arguments: ['@app.mandrill.service', '%domain%']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.site_settings.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\SiteSettingsEntityListener
+        arguments: ['@app.photo.service']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.exception.kernel_listener:
+        class: AppBundle\EventListener\ExceptionListener
+        arguments: ['@router']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    app.post.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\PostEntityListener
+        arguments: ['@app.instagram.service', '@app.google.service', '@app.facebook.service']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.set_business.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\SetBusinessListener
+        arguments: ['@request_stack', '@security.token_storage']
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    app.event.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\EventEntityListener
+        arguments: ['@app.google.service']
+        tags:
+        - { name: doctrine.orm.entity_listener }
+
+    app.instagram_account.entity_listener:
+        class: AppBundle\EventListener\DoctrineEntityListener\InstagramAccountEntityListener
+        arguments: ['@app.instagram.service']
+        tags:
+        - { name: doctrine.orm.entity_listener }
