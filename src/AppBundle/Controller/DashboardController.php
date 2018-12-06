@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Repository\LicenseRepository;
 use Cronfig\Sysinfo\AbstractOs;
 use Cronfig\Sysinfo\System;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +24,25 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 class DashboardController extends BaseController
 {
     /**
-     * @Route("/", name="dashboard")
+     * @Route("/", name="homepage")
+     */
+    public function indexAction(Request $request)
+    {
+
+
+        return $this->render('@App/dashboard/index.html.twig',[
+            'users' => $this->findBy('AppBundle:User', [])
+        ]);
+    }
+
+
+
+
+    /**
+     * @Route("/dashboards", name="dashboards")
      */
 
-    public function indexAction(Request $request)
+    public function dashboardAction(Request $request)
     {
         /**
          * @var $user User
@@ -90,7 +105,7 @@ class DashboardController extends BaseController
     }
 
     /**
-     * @Route("/users", name="users")
+     * @Route("/usersi", name="usersi")
      */
 
     public function usersAction(Request $request)

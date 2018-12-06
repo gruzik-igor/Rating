@@ -21,14 +21,13 @@ class EditUserForm extends AbstractType
             ->add('username', TextType::class, ['attr' => ['placeholder' => 'Enter your name', 'class' => 'form-control border-input'], 'label' => 'Username: '])
             ->add('fullName', TextType::class, ['attr' => ['placeholder' => 'Enter your fullName', 'class' => 'form-control border-input'], 'label' => 'fullName: '])
             ->add('email', EmailType::class, ['attr' => ['placeholder' => 'Please enter your email', 'class' => 'form-control border-input'], 'label' => 'E-mail: '])
-//            ->add('role', HiddenType::class, ['attr' => ['value' => 'ROLE_SUPER_ADMIN']])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message'   => 'The password fields must match!',
                 'required' => true,
                 'first_options'  => array('attr' => ['placeholder' => 'Please enter your password', 'class' => 'form-control border-input'],'label' => 'Password'),
                 'second_options' => array('attr' => ['placeholder' => 'Please repeat your password', 'class' => 'form-control border-input'],'label' => 'Repeat Password')))
-            ->add('role',ChoiceType::class,[
+            ->add('role',ChoiceType::class,['attr' => ['class' => 'checkbox'],
                 'multiple' => false,
                 'expanded' => true,
                 'choices' => [

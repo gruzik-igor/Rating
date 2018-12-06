@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\LogInForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 

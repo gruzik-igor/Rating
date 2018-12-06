@@ -18,6 +18,7 @@ security:
             security: false
 
         main:
+            logout_on_user_change: true
             anonymous: ~
             form_login:
                 login_path: login
@@ -35,3 +36,7 @@ security:
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 
+    role_hierarchy:
+        ROLE_USER: ROLE_USER
+        ROLE_MODERATOR:    ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_MODERATOR, ROLE_ALLOWED_TO_SWITCH]

@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\RegistrationForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -37,7 +37,7 @@ class RegistrationController extends Controller
 
             $em->flush();
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('homepage');
         }
         return $this->render('@App/Registration/registration.html.twig', array(
             'form' => $form->createView()

@@ -5,44 +5,35 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\EditUserForm;
 use AppBundle\Form\RegistrationForm;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
-class DefaultController extends Controller
+class UserController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
-    {
-       return $this->render('@App/dashboard/index.html.twig');
-    }
-
-    /**
-     * @Route("/dashboard", name="dashboard")
+     * @Route("/users", name="users")
      */
 
-    public  function dashboardAction()
+    public  function usersListAction()
     {
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('AppBundle:User')->findAll();
-        return $this->render('@App/dashboard/users.html.twig',['users' => $users]);
+        return $this->render('@App/dashboard/users/users.html.twig',['users' => $users]);
     }
 
     /**
-     * @Route("/edituser/{id}", name="user.edit")
+     * @Route("/edit-user/{id}", name="user.edit")
      * @ParamConverter("user", class="AppBundle\Entity\User")
-     * @param Request $request
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
 
-    public  function editUserAction(Request $request ,User $user)
+    public  function editUserAction(Request $request , User $user, UserPasswordEncoderInterface $encoder)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(EditUserForm::class, $user);
@@ -51,10 +42,13 @@ class DefaultController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $password = $encoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('users');
         }
 
 
