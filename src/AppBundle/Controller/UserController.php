@@ -11,12 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class UserController extends Controller
 {
     /**
      * @Route("/users", name="users")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
 
     public  function usersListAction()

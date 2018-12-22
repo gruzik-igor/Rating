@@ -8,7 +8,6 @@ use Cronfig\Sysinfo\System;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -17,6 +16,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\HttpFoundation\Cookie;
+use AppBundle\Entity\User;
 
 
 
@@ -140,27 +141,61 @@ class DashboardController extends BaseController
 
     }
 
-//    // test routes
-//    /**
-//     * @Route("/user/info")
-//     */
-//    public function infoAction()
-//    {
-//        $name = 'Ivan Ivanenko';
-//
-//        return new Response('<html><body>Whoo: ' . $name . '</body></html>');
-//    }
-//
-//    /**
-//     * @Route("/user/add")
-//     */
-//
-//    public function addAction()
-//    {
-//        $name = 'Add New User';
-//
-//        return new Response('<html><body>User: ' . $name . '</body></html>');
-//    }
+
+
+    // test routes
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function adminAction()
+    {
+
+
+
+        return $this->render('@App/admin/admin.html.twig',
+            ['users' => $this->findBy('AppBundle:User', [])]);
+    }
+
+    /**
+     * @Route("/test", name="test")
+     */
+
+    public function testAction(Request $request)
+    {
+        // берем користувача(юзера) з реквесту який нам прийшов і записуєм в змінну $user.
+        $user = $this->getUser($request);
+
+        // вставляємо кукі ім'я юзера.
+       // $cookies = setcookie('user',$user->getUserName(),strtotime('now + 10 minutes'));
+
+        // вставляємо id юзера.
+       // $cookies = setcookie('id', $user->getId(), strtotime('now + 10 minutes'));
+
+        //$cookies = setcookie('expired',strtotime('now + 10 minutes'));
+
+        $cookies = setcookie('user',$user->getUserName(),strtotime('now + 10 minutes'),'~/','localhost:8000','true');
+
+        // перевіряємо чи існує лічильник переглядів і ставим в кукі.
+        $counter = isset($_COOKIE['counter']) ? $_COOKIE['counter'] : 0;
+        $counter++;
+        $cookies = setcookie('counter',$counter);
+
+        $cookies_name = 'user';
+        $cookies_value = 'user cookies';
+
+        $user = $this->getUser($request);
+        $id = $user->getId();
+        $requests = $request->cookies;
+//        $cookies =  setcookie($cookies_name, '', time() + 86400);
+
+       // $cookies = setcookie('user');
+        //$cookies = new Cookie('user', $user->getId(), strtotime('now + 10 minutes'));
+        $server = $_SERVER;
+
+        $session = $_SESSION;
+        return $this->render('@App/dashboard/index.html.twig',
+            ['user'=> $user,'cookies' => $cookies,'server' => $server,'session' => $session,'requests' => $requests, 'users' => $this->findBy('AppBundle:User', [])]);
+    }
 
 
 }

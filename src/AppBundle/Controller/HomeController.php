@@ -16,6 +16,7 @@ class HomeController extends BaseController
     /**
      * @Route("/", name="home")
      * @Security("has_role('ROLE_USER')")
+     *
      */
     public function indexAction(Request $request)
     {

@@ -84,12 +84,12 @@
 
         <div class="col-sm-5">
             <div class="user-area dropdown float-right">
-
+                {#{% for user in users %}#}
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="" style="margin: 7px 20px 0 0" > <strong> User name</strong> </span>
+                    {#<span class="" style="margin: 7px 20px 0 0" > <strong> User name {{ users.username }}e</strong> </span>#}
                     <img class="user-avatar rounded-circle" src="{{ asset('images/admin.jpg') }}" alt="User Avatar">
                 </a>
-
+                {#{% endfor %}#}
                 <div class="user-menu dropdown-menu">
                     <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
 
